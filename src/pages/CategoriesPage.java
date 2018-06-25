@@ -74,16 +74,17 @@ public class CategoriesPage {
     }
 
     public WebElement chooseRandomRow(WebDriverWait wait) {
-//        WebElement tBody = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ui-sortable")));
-//        List<WebElement> rows = tBody.findElements(By.tagName("tr"));
-//
-//        System.out.println("Number of rows: " + rows.size());
-//
-//        WebElement randomRow = rows.get(0);
-//
-//        return randomRow;
-List<WebElement> rows = getRowsFromTable(wait);
-WebElement randomRow = rows.get(Helper.(rows.size()));
+        WebElement tBody = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ui-sortable")));
+        List<WebElement> rows = tBody.findElements(By.tagName("tr"));
+
+        System.out.println("Number of rows: " + rows.size());
+
+        WebElement randomRow = rows.get(0);
+//List<WebElement> rows = getRowsFromTable(wait);
+//WebElement randomRow = rows.get(Helper.(rows.size()));
+        return randomRow;
+//List<WebElement> rows = getRowsFromTable(wait);
+//WebElement randomRow = rows.get(Helper.(rows.size()));
         
 
 
@@ -131,5 +132,25 @@ WebElement randomRow = rows.get(Helper.(rows.size()));
         clickOnSaveCategoryButton(driver);
 
     }
+     
+      public void clickOnDeleteButton(WebElement row) {
+
+       row.findElement(By.cssSelector("button[title='Delete']")));
+        editButton.click();
+
+    }
+      
+      public void clickOnConfirmDeleteButton();
+      
+      
+
+    public void deleteFirstCategory(WebDriver driver, WebDriverWait wait) {
+        WebElement firstRow = chooseFirstRow(wait);
+        clickOnDeleteButton(firstRow);
+        
+
+    }
+     
+     
 
 }
