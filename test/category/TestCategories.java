@@ -17,6 +17,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.CategoriesPage;
 
 public class TestCategories {
 
@@ -55,7 +56,7 @@ public class TestCategories {
     public static void tearDownClass() throws InterruptedException {
         Thread.sleep(3000);
         System.out.println("@AfterClass: " + dateFormat.format(new Date()));
-        driver.quit();
+//        driver.quit();
     }
 
     @Before
@@ -77,14 +78,19 @@ public class TestCategories {
     public void testCreateNewCategory() {
 
         for (int i = 0; i < 5; i++) {
-            WebElement addCategoryButton = driver.findElement(By.className("btn"));
-            addCategoryButton.click();
 
-            WebElement titleField = driver.findElement(By.id("title"));
-            titleField.sendKeys(Helper.getRandomText());
+            CategoriesPage categoriesPage = new CategoriesPage();
 
-            WebElement saveButton = driver.findElement(By.id("save-category-button"));
-            saveButton.click();
+            //  categoriesPage.clickOnAddCategoryButton(driver);
+//            WebElement addCategoryButton = driver.findElement(By.className("btn"));
+//            addCategoryButton.click();
+            // categoriesPage.enterTitleField(driver);
+//            WebElement titleField = driver.findElement(By.id("title"));
+//            titleField.sendKeys(Helper.getRandomText());
+            //  categoriesPage.clickOnSaveCategoryButton(driver);
+//            WebElement saveButton = driver.findElement(By.id("save-category-button"));
+//            saveButton.click();
+            categoriesPage.addNewCategory(driver);
 
             String expectedURL = "http://bvtest.school.cubes.rs/admin/categories";
             String actualURL = driver.getCurrentUrl();
@@ -106,23 +112,8 @@ public class TestCategories {
     @Test
     public void testEditLastCategory() {
 
-//        WebElement table = driver.findElement(By.id("categoriesTable"));
-        WebElement tBody = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ui-sortable")));
-        List<WebElement> rows = tBody.findElements(By.tagName("tr"));
-
-        System.out.println("Number of rows: " + rows.size());
-
-        WebElement lastRow = rows.get(rows.size() - 1);
-
-        WebElement editButton = lastRow.findElement(By.className("btn-default"));
-        editButton.click();
-
-        WebElement titleField = driver.findElement(By.id("title"));
-        titleField.clear();
-        titleField.sendKeys(Helper.getRandomText());
-
-        WebElement saveButton = driver.findElement(By.id("save-category-button"));
-        saveButton.click();
+        CategoriesPage categoriesPage = new CategoriesPage();
+        categoriesPage.editLastCategory(driver, wait);
 
         String expectedURL = "http://bvtest.school.cubes.rs/admin/categories";
         String actualURL = driver.getCurrentUrl();
@@ -137,6 +128,12 @@ public class TestCategories {
 
     }
 
+    @Test
+    public void testEditFirstCategory() {
+        CategoriesPage categoriesPage = new CategoriesPage();
+        categoriesPage.editFirstCategory(driver, wait);
+    }
+
 //    @Test
 //    public void testDeleteFirstCategory() { da se nadje tbody, obuhvate svi redovi, da kliknem na delete itd, izlazi popup,
     //i mora novi metod
@@ -144,6 +141,9 @@ public class TestCategories {
 //    }
     @Test
     public void testDeleteFirstCategory() {
+        
+        CategoriesPage categoriesPage = new CategoriesPage();
+        categoriesPage.deleteFirstCategory(driver, wait);
 
         WebElement tBody = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ui-sortable")));
         List<WebElement> rows = tBody.findElements(By.tagName("tr"));
@@ -154,7 +154,7 @@ public class TestCategories {
 
         WebElement deleteButton = firstRow.findElement(By.cssSelector("button[title='Delete']"));
 //        WebElement deleteButton = driver.findElement(By.cssSelector("#regionsTable > tbody > tr > td:nth-child(5) > div > button:nth-child(3)"));
-deleteButton.click();
+        deleteButton.click();
     }
 
 }
